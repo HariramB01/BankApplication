@@ -1,46 +1,55 @@
-
+# General Eureka Client Config for Service Registration and Discovery
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true  # Use IP addresses for service registration
 
+# General Zipkin Config for Distributed Tracing
 spring:
   zipkin:
-    url: http://localhost:9411
+    base-url: http://localhost:9411  # Zipkin server for tracing
+    enabled: true
+    sampler:
+      probability: 1.0  # Always trace all requests
 
+# Resilience4j Circuit Breaker Config for Fault Tolerance
 resilience4j:
   circuitbreaker:
     configs:
       default:
         registerHealthIndicator: true
         eventConsumerBufferSize: 10
-        failureRateThreshold: 50
-        minimumNumberOfCalls: 5
+        failureRateThreshold: 50  # Mark circuit breaker open when 50% of calls fail
+        minimumNumberOfCalls: 5  # Minimum number of calls to evaluate failure rate
         automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 5s
-        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 5s  # Time the circuit breaker stays open before transitioning to half-open
+        permittedNumberOfCallsInHalfOpenState: 3  # Number of permitted calls in half-open state
         slidingWindowSize: 10
-        slidingWindowType: COUNT_BASED
+        slidingWindowType: COUNT_BASED  # Use count-based sliding window for evaluation
 
+# Management and Metrics Config for All Services
 management:
   tracing:
     sampling:
-      probability: 1.0
-
+      probability: 1.0  # Enable tracing for all requests
   endpoints:
     web:
       exposure:
-        include: health, info, metrics, loggers, refresh, circuitbreakers, prometheus
+        include: health, info, metrics, loggers, refresh, circuitbreakers, prometheus  # Expose required endpoints
   metrics:
     export:
       prometheus:
-        enabled: true
+        enabled: true  # Enable Prometheus metrics for monitoring
   endpoint:
     prometheus:
-      enabled: true
+      enabled: true  # Expose Prometheus endpoint for scraping metrics
 
+# Enable Circuit Breaker Endpoint
+management:
   endpoint:
     circuitbreakers:
-      enabled: true
+      enabled: true  # Expose circuit breaker metrics and health check
