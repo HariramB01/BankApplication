@@ -32,7 +32,14 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info, metrics, loggers, refresh, circuitbreakers
+        include: health, info, metrics, loggers, refresh, circuitbreakers, prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    prometheus:
+      enabled: true
 
   endpoint:
     circuitbreakers:
