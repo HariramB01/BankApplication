@@ -47,9 +47,5 @@ management:
   endpoint:
     prometheus:
       enabled: true  # Expose Prometheus endpoint for scraping metrics
-
-# Enable Circuit Breaker Endpoint
-management:
-  endpoint:
     circuitbreakers:
       enabled: true  # Expose circuit breaker metrics and health check
