@@ -1,0 +1,32 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: CONFIG-SERVER
+
+  zipkin:
+    url: http://localhost:9411
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/HariramB01/BankApplication
+          default-label: main
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+  instance:
+    prefer-ip-address: false
+    hostname: localhost

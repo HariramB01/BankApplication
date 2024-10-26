@@ -1,0 +1,12 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: SECURITY-SERVICE
+
+  cloud:
+    config:
+      uri: http://localhost:8081
+  config:
+    import: configserver:http://localhost:8081

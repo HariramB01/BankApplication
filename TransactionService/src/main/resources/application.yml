@@ -1,0 +1,39 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: transaction-service
+
+  config:
+    import: optional:configserver:http://localhost:8081
+
+  cloud:
+    config:
+      uri: http://localhost:8081
+
+  kafka:
+    bootstrap-servers: broker1:9092
+    consumer:
+      group-id: transfer
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      properties:
+        max.poll.records: 10
+    producer:
+      acks: all  # Ensure all replicas acknowledge the message
+      retries: 3  # Number of times to retry sending a message if it fails
+      properties:
+        max.in.flight.requests.per.connection: 5
+
+    # Configure topics with replication
+    topics:
+      my-topic:
+        partitions: 3  # Number of partitions for the topic
+        replication-factor: 2  # Replication factor for the topic
+
+      another-topic:
+        partitions: 5
+        replication-factor: 3
+
+# Additional configuration for producers and consumers if necessary

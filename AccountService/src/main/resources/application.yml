@@ -1,0 +1,20 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: account-service
+
+  cloud:
+    config:
+      uri: http://localhost:8081
+
+  config:
+    import: optional:configserver:http://localhost:8081
+
+
+feign:
+  client:
+    config:
+      USER-SERVICE:
+        url: http://USER-SERVICE/api/user
